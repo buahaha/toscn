@@ -1,0 +1,31 @@
+body {
+    /* font-family: 'Courier New', Courier, monospace; */
+    background-color: black;
+    color: white;
+}
+
+#title, #ticker {
+    text-align: center;
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#basic-info {
+    list-style-type: none;
+}
+
+#corp-description font[size]  {
+    font-size: medium !important;  
+}
+
+#ceo-description font[size]  {
+    font-size: medium !important;  
+}
+
+#first-corp-ad font[size]  {
+    font-size: medium !important;
+}

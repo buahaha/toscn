@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 id="title">Taste Of Sound Crunching Numbers</h1>
+            <img src="" alt="logo" id="logo" />
+            <p id="ticker"></p>
+            <h2>Corporation info</h2>
+            <ul id="basic-info">
+                
+            </ul>
+            <h2>CEO info</h2>
+            <img src="" alt="logo" id="ceo-portrait" />
+            <ul id="ceo-info">
+                
+            </ul>
+            <p id="first-corp-ad">
+                <font size="12" color="#ffbfbfbf"></font><font size="13" color="#ffbfbfbf">Hej </font><font size="13" color="#ffffffff">Creator</font><font size="12" color="#ffbfbfbf">,<br><br>You will find plenty of opportunity to</font><font size="12" color="#ffffffff"> create</font><font size="12" color="#ffbfbfbf"> with me many ships, modules and all that cool stuff, but how? We are going to use <b>Python</b> programming languge. Join me in my coding adventure through EVE Online API, and finding that one edge, no one thought about before... or just count everything straight and say no to this blueprint... Are you into more advanced stuff? We could help each other to carve a way through the niches up to the big and open market.<br><br>Primary site of operations is </font><font size="12" color="#ffd98d00"><a href="showinfo:5//30002053">Hek</a></font><font size="12" color="#ffbfbfbf"> from where is near to Rens and Dodixie, and not that far to Jita.<br><br>Coders and Industrialist are welcome.</font>
+            </p>
+        </div>
+        <script>
+            let ceo_id
+            const my_corp = new Promise((resolve, reject) => {
+                resolve(98551922);
+            });
+            my_corp.then(my_corp => {
+
+                fetch('https://esi.evetech.net/latest/corporations/' + my_corp + '/?datasource=tranquility')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("ticker").innerHTML = data.ticker;
+                        var li = document.createElement("li")
+                        document.getElementById("basic-info").appendChild(li).innerHTML = "Member count: " + data.member_count;
+                        var li = document.createElement("li")
+                        document.getElementById("basic-info").appendChild(li).innerHTML = "Tax rate: " + Math.round(data.tax_rate * 100) + "%";
+                        var li = document.createElement("li")
+                        document.getElementById("basic-info").appendChild(li).innerHTML = "Shares: " + data.shares;
+                        var li = document.createElement("li")
+                        li.setAttribute("id", "corp-description");
+                        document.getElementById("basic-info").appendChild(li).innerHTML = "Description: " + data.description;
+                        var li = document.createElement("li")
+                        document.getElementById("basic-info").appendChild(li).innerHTML = "Founded: " + data.date_founded;
+                        console.log(data);
+                        return data.ceo_id
+                        }
+                    )
+                    .then(ceo_id =>
+                        fetch('https://esi.evetech.net/latest/characters/' + ceo_id + '/?datasource=tranquility')
+                            .then(response => response.json())
+                            .then(data => {
+                                var li = document.createElement("li")
+                                document.getElementById("ceo-info").appendChild(li).innerHTML = "Birthday: " + data.birthday;
+                                var li = document.createElement("li")
+                                document.getElementById("ceo-info").appendChild(li).innerHTML = "Name: " + data.name;
+                                var li = document.createElement("li")
+                                document.getElementById("ceo-info").appendChild(li).innerHTML = "Gender: " + data.gender;
+                                var li = document.createElement("li")
+                                document.getElementById("ceo-info").appendChild(li).innerHTML = "Security status: " + data.security_status;
+                                
+                                var li = document.createElement("li")
+                                li.setAttribute("id", "ceo-description");
+                                document.getElementById("ceo-info").appendChild(li).innerHTML = data.description;
+                                
+                                return ceo_id
+                            }
+                            )
+                            .then(
+                                fetch('https://esi.evetech.net/latest/characters/' + ceo_id + '/portrait/?datasource=tranquility')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        let px128 = data.px128x128
+                                        document.getElementById("ceo-portrait").src = px128;
+                                        }
+                                    )
+                            )
+                    )
+                    .then(
+                        fetch('https://esi.evetech.net/latest/corporations/' + my_corp + '/icons/?datasource=tranquility')
+                            .then(response => response.json())
+                            .then(data => {
+                                let px128 = data.px128x128
+                                document.getElementById("logo").src = px128;
+                                }
+                            )
+                    );
+            })
+            
+        </script>
+    </body>
+</html>
